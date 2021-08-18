@@ -6,6 +6,7 @@ const ExerciseForm = (props) => {
   const { exercise, submitFunc = () => {}, history } = props;
 
   const [formData, setFormData] = useState(exercise);
+  const [logDate, setLogDate] = useState(new Date());
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,7 +14,7 @@ const ExerciseForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    submitFunc(formData);
+    submitFunc(formData, logDate);
     history.push("/");
   };
 
@@ -72,8 +73,10 @@ const ExerciseForm = (props) => {
           <div>
             <DatePicker
               name="date"
-              selected={formData.date}
-              onChange={handleChange}
+              dateFormat="MM-dd-yyyy"
+              closeOnScroll={true}
+              selected={logDate}
+              onChange={(date) => setLogDate(date)}
             />
           </div>
         </div>
@@ -91,7 +94,9 @@ const ExerciseForm = (props) => {
               props.deleteExercise(exercise);
               props.history.push("/edit");
             }}
-          >Delete Log</button>
+          >
+            Delete Log
+          </button>
         </div>
       </form>
     </div>

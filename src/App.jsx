@@ -14,7 +14,7 @@ function App() {
     username: "",
     description: "",
     duration: 0,
-    date: new Date(),
+    date: new Date().toLocaleDateString(),
     users: [],
   };
 
