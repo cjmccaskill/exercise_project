@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const CreateExercise = (props) => {
+const ExerciseForm = (props) => {
   const { exercise, submitFunc = () => {}, history } = props;
 
   const [formData, setFormData] = useState(exercise);
@@ -19,7 +19,7 @@ const CreateExercise = (props) => {
 
   return (
     <div>
-      <h3>Create New Exercise Log</h3>
+      <h3>{props.label}</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username: </label>
@@ -70,20 +70,32 @@ const CreateExercise = (props) => {
         <div className="form-group">
           <label>Date: </label>
           <div>
-            <DatePicker selected={formData.date} onChange={handleChange} />
+            <DatePicker
+              name="date"
+              selected={formData.date}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
         <div className="form-group">
           <input
             type="submit"
-            value="Create Exercise Log"
+            value={props.label}
             className="btn btn-primary"
           />
+          <button
+            type="submit"
+            className="btn btn-danger"
+            onClick={() => {
+              props.deleteExercise(exercise);
+              props.history.push("/edit");
+            }}
+          >Delete Log</button>
         </div>
       </form>
     </div>
   );
 };
 
-export default CreateExercise;
+export default ExerciseForm;

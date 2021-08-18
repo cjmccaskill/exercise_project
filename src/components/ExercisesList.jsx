@@ -12,6 +12,15 @@ const ExercisesList = (props) => {
           <p>{exercise.description}</p>
           <p>{exercise.duration}</p>
           <p>{exercise.date}</p>
+          <input
+            type="submit"
+            value="Edit Exercise"
+            className="btn btn-primary"
+            onClick={() => {
+              props.selectExercise(exercise);
+              props.history.push("/edit");
+            }}
+          />
         </div>
       ))}
     </div>

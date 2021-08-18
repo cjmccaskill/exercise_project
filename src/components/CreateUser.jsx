@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 
 const CreateUser = (props) => {
-  const { submitFunc = () => {}, history } = props;
-  const [formData, setFormData] = useState({});
+  const { username, submitFunc = () => {}, history } = props;
+  const [user, setUser] = useState(username);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    submitFunc(formData);
-    history.push("/");
+    submitFunc(user);
+    history.push("/user");
   };
 
   return (

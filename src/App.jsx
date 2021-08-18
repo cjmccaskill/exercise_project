@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import ExercisesList from "./components/ExercisesList";
-import EditExercise from "./components/EditExercise";
-import CreateExercise from "./components/CreateExercise";
+import ExerciseForm from "./components/ExerciseForm";
 import CreateUser from "./components/CreateUser";
 import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const url = "http://exercise-project-db.herokuapp.com";
+  const url = "https://exercise-project-db.herokuapp.com";
   const [exercises, setExercises] = useState([]);
 
   const newExercise = {
@@ -32,7 +31,7 @@ function App() {
   }, []);
 
   const createExercise = async (newExercise) => {
-    await fetch(url, {
+    await fetch(url + "/exercise", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -42,19 +41,19 @@ function App() {
     getExercises();
   };
 
-  const updateExercise = async (updateExercise) => {
-    await fetch(url + `/${updateExercise._id}`, {
+  const updateExercise = async (exercise) => {
+    await fetch(url + "/exercise/" + exercise._id, {
       method: "put",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updateExercise),
+      body: JSON.stringify(exercise),
     });
     getExercises();
   };
 
-  const deleteExercise = async (deleteExercise) => {
-    await fetch(url + `/${deleteExercise._id}`, {
+  const deleteExercise = async (exercise) => {
+    await fetch(url + "/exercise/" + exercise._id, {
       method: "delete",
     });
     getExercises();
@@ -81,29 +80,33 @@ function App() {
           )}
         ></Route>
         <Route
-          path="/edit/:id"
+          path="/create"
           render={(rp) => (
-            <EditExercise
+            <ExerciseForm
               {...rp}
-              label="Update"
+              label="Create New Exercise"
+              exercise={newExercise}
+              submitFunc={createExercise}
+            />
+          )}
+        ></Route>
+        <Route
+          path="/edit"
+          render={(rp) => (
+            <ExerciseForm
+              {...rp}
+              label="Update Log"
               exercise={selectedExercise}
               submitFunc={updateExercise}
               deleteExercise={deleteExercise}
             />
           )}
         ></Route>
+
         <Route
-          path="/create"
-          render={(rp) => (
-            <CreateExercise
-              {...rp}
-              label="Create"
-              exercise={newExercise}
-              submitFunc={createExercise}
-            />
-          )}
+          path="/user"
+          render={(rp) => <CreateUser {...rp} exercises={exercises} />}
         ></Route>
-        <Route path="/user" render={(rp) => <CreateUser />}></Route>
       </Switch>
     </div>
   );
