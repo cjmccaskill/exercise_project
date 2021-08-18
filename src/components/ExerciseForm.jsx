@@ -85,7 +85,7 @@ const ExerciseForm = (props) => {
           <input
             type="submit"
             value={props.label}
-            className="btn btn-primary"
+            className="btn btn-primary btn-submit"
           />
           <button
             type="submit"
