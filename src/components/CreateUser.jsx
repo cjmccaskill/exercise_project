@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
 const CreateUser = (props) => {
-  const { username, submitFunc = () => {}, history } = props;
-  const [user, setUser] = useState(username);
+  const { users, submitFunc = () => {}, history } = props;
 
+  const [newUser, setNewUser] = useState(users);
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    submitFunc(user);
+    submitFunc(newUser);
     history.push("/user");
   };
 
@@ -25,7 +25,7 @@ const CreateUser = (props) => {
             required
             name="username"
             className="form-control"
-            value={props.username}
+            value={newUser.username}
             onChange={handleChange}
           />
         </div>

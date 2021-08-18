@@ -8,6 +8,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const url = "https://exercise-project-db.herokuapp.com";
+
+  ////////////////////////
+  // Exercise functions
+  ////////////////////////
   const [exercises, setExercises] = useState([]);
 
   const newExercise = {
@@ -63,6 +67,37 @@ function App() {
     setSelectedExercise(exercise);
   };
 
+  ////////////////////////
+  // User functions
+  ////////////////////////
+  const [users, setUsers] = useState([]);
+
+  const newUser = {
+    username: "",
+    users: [],
+  };
+
+  const getUsers = async () => {
+    const response = await fetch(url + "/user");
+    const data = await response.json();
+    setUsers(data);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  const createUser = async (newUser) => {
+    await fetch(url + "/user", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    getUsers();
+  };
+
   return (
     <div className="container">
       <Navbar />
@@ -105,7 +140,9 @@ function App() {
 
         <Route
           path="/user"
-          render={(rp) => <CreateUser {...rp} exercises={exercises} />}
+          render={(rp) => (
+            <CreateUser {...rp} users={newUser} submitFunc={createUser} />
+          )}
         ></Route>
       </Switch>
     </div>
