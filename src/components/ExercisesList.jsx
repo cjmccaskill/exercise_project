@@ -1,4 +1,5 @@
 import React from "react";
+import ConvertDate from "./ConvertDate";
 
 const ExercisesList = (props) => {
   const { exercises } = props;
@@ -11,7 +12,9 @@ const ExercisesList = (props) => {
           <h4>{exercise.username}</h4>
           <p>{exercise.description}</p>
           <p>{exercise.duration}</p>
-          <p>{exercise.date}</p>
+          <p>
+            <ConvertDate>{exercise.date}</ConvertDate>
+          </p>
           <input
             type="submit"
             value="Edit Exercise"
