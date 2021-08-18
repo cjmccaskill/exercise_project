@@ -7,7 +7,7 @@ import CreateUser from "./components/CreateUser";
 import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function App(props) {
+function App() {
   const url = "http://exercise-project-db.herokuapp.com";
   const [exercises, setExercises] = useState([]);
 
@@ -37,6 +37,25 @@ function App(props) {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(newExercise),
+    });
+    getExercises();
+  };
+
+  const updateExercise = async (updateExercise) => {
+    await fetch(url + `/${updateExercise._id}`, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateExercise),
+    });
+    getExercises();
+  };
+
+  const deleteExercise = async (deleteExercise) => {
+    await fetch(url + `/${deleteExercise._id}`, {
+      method: "delete",
     });
     getExercises();
   };
@@ -67,7 +86,7 @@ function App(props) {
             <EditExercise
               {...rp}
               label="Update"
-              exercise={selectExercise}
+              exercise={selectedExercise}
               submitFunc={updateExercise}
               deleteExercise={deleteExercise}
             />
